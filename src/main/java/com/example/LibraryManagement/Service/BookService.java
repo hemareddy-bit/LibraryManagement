@@ -4,7 +4,6 @@ import com.example.LibraryManagement.DAO.BookDAO;
 import com.example.LibraryManagement.Model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -12,28 +11,30 @@ import java.util.Optional;
 public class BookService {
 
     @Autowired
-    private BookDAO bookDAO;
+    private BookDAO bookRepository;
 
-    public void addBook(Book book) {
-        bookDAO.save(book);
+    // Method to add a new book
+    public Book addBook(Book book) {
+        return bookRepository.save(book);
     }
 
-    public void updateBook(String bookId, Book updatedBook) {
-        Optional<Book> existingBookOpt = bookDAO.findById(bookId);
-        if (existingBookOpt.isPresent()) {
-            bookDAO.save(updatedBook);
-        }
+    // Method to get a book by ID
+    public Optional<Book> getBook(Long id) {
+        return bookRepository.findById(id);
     }
 
-    public Optional<Book> getBook(String bookId) {
-        return bookDAO.findById(bookId);
-    }
-
-    public void deleteBook(String bookId) {
-        bookDAO.deleteById(bookId);
-    }
-
+    // Method to get all books
     public List<Book> getAllBooks() {
-        return bookDAO.findAll();
+        return bookRepository.findAll();
+    }
+
+    // Method to delete a book by ID
+    public void deleteBook(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    // Method to update a book
+    public void updateBook(Book book) {
+        bookRepository.save(book);
     }
 }

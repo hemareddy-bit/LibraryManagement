@@ -3,8 +3,6 @@ package com.example.LibraryManagement.Model;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,13 +14,13 @@ public class Member {
     private String contactInformation;
 
     @ElementCollection
-    private List<String> borrowingHistory; // Assuming borrowing history is a list of book IDs or similar
+    private List<Long> borrowingHistory;
 
     // Default constructor
     public Member() {}
 
     // Constructor with parameters
-    public Member(String memberId, String name, String contactInformation, List<String> borrowingHistory) {
+    public Member(String memberId, String name, String contactInformation, List<Long> borrowingHistory) {
         this.memberId = memberId;
         this.name = name;
         this.contactInformation = contactInformation;
@@ -54,11 +52,11 @@ public class Member {
         this.contactInformation = contactInformation;
     }
 
-    public List<String> getBorrowingHistory() {
+    public List<Long> getBorrowingHistory() {
         return borrowingHistory;
     }
 
-    public void setBorrowingHistory(List<String> borrowingHistory) {
+    public void setBorrowingHistory(List<Long> borrowingHistory) {
         this.borrowingHistory = borrowingHistory;
     }
 }

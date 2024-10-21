@@ -5,19 +5,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.time.LocalDate;
-
 @Entity
 public class Borrow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String memberId;
+    private Long bookId;
+    private String borrowDate;
+    private String returnDate;
 
-    private String memberId; // Example field
-    private String bookId; // Example field
-    private String borrowDate; // Example field
-    private String returnDate; // Example field
+    public Borrow() {}
+
+    // Constructor to create a borrow instance
+    public Borrow(String memberId, Long bookId, String borrowDate) {
+        this.memberId = memberId;
+        this.bookId = bookId;
+        this.borrowDate = borrowDate;
+    }
 
     // Getters and setters
     public Long getId() {
@@ -36,11 +42,11 @@ public class Borrow {
         this.memberId = memberId;
     }
 
-    public String getBookId() {
+    public long getBookId() {
         return bookId;
     }
 
-    public void setBookId(String bookId) {
+    public void setBookId(long bookId) {
         this.bookId = bookId;
     }
 

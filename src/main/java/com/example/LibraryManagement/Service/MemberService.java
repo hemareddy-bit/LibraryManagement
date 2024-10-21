@@ -12,35 +12,25 @@ import java.util.Optional;
 public class MemberService {
 
     @Autowired
-    private MemberDAO memberDAO;
+    private MemberDAO memberRepository;
 
-    public void addMember(Member member) {
-        memberDAO.save(member);
+    // Method to add a new member
+    public Member addMember(Member member) {
+        return memberRepository.save(member);
     }
 
-    public void updateMember(String memberId, Member updatedMember) {
-        Optional<Member> existingMemberOpt = memberDAO.findById(memberId);
-        if (existingMemberOpt.isPresent()) {
-            Member existingMember = existingMemberOpt.get();
-            // Update the member's properties
-            existingMember.setName(updatedMember.getName());
-            existingMember.setContactInformation(updatedMember.getContactInformation());
-            // Update other properties as needed
-            memberDAO.save(existingMember);
-        } else {
-            throw new IllegalArgumentException("Member with ID " + memberId + " not found.");
-        }
+    // Method to get a member by ID
+    public Optional<Member> getMember(String memberId) {
+        return memberRepository.findById(memberId);
     }
 
-    public void deleteMember(String memberId) {
-        memberDAO.deleteById(memberId);
-    }
-
-    public Member getMemberById(String memberId) {
-        return memberDAO.findById(memberId).orElse(null);
-    }
-
+    // Method to get all members
     public List<Member> getAllMembers() {
-        return memberDAO.findAll();
+        return memberRepository.findAll();
+    }
+
+    // Method to delete a member by ID
+    public void deleteMember(String memberId) {
+        memberRepository.deleteById(memberId);
     }
 }

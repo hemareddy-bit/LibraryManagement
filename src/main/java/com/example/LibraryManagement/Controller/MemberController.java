@@ -10,27 +10,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/members")  // Updated to match the same base path as other controllers
+@RequestMapping("/api/members")
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
 
+    // Endpoint to add a new member
     @PostMapping
     public ResponseEntity<String> addMember(@RequestBody Member member) {
         memberService.addMember(member);
         return ResponseEntity.status(HttpStatus.CREATED).body("Member added successfully: " + member.getName());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMember(@PathVariable String id) {
-        memberService.deleteMember(id);
-        return ResponseEntity.ok("Member deleted successfully with ID: " + id);
+    // Endpoint to get a member by ID
+    @GetMapping("/{memberId}")
+    public ResponseEntity<Member> getMember(@PathVariable String memberId) {
+        return memberService.getMember(memberId)
+                .map(member -> ResponseEntity.ok(member))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
+    // Endpoint to get all members
     @GetMapping
     public ResponseEntity<List<Member>> getAllMembers() {
         List<Member> members = memberService.getAllMembers();
         return ResponseEntity.ok(members);
+    }
+
+    // Endpoint to delete a member by ID
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<String> deleteMember(@PathVariable String memberId) {
+        memberService.deleteMember(memberId);
+        return ResponseEntity.ok("Member deleted successfully with ID: " + memberId);
     }
 }
